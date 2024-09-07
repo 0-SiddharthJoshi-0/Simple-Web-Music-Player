@@ -1,0 +1,406 @@
+/* Default styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(248, 248, 248);
+    
+}
+
+.login-error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+.login-container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: auto;
+    margin-top: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 320px;
+    width: 100%;
+}
+
+.login-container h1 {
+
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+h1 button{
+    position: absolute;
+    right: 1em;
+    width: 70px;
+}
+
+
+#historyComponent,
+#favoritesComponent {
+    display: none;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+#favoritesComponent button{
+    position: absolute;
+    right:1em;
+}
+
+#history-btn,
+#favoritesList {
+    margin-bottom: 10px;
+}
+
+#favoritesList li {
+    list-style: none;
+    margin-bottom: 5px;
+}
+
+#favoritesList li button {
+    margin-left: 10px;
+}
+
+
+#shuffle{
+    position: absolute;
+    bottom: 3em;
+    right: 5em;
+}
+
+#loop{
+    position: absolute;
+    left: 2em;
+}
+
+.pt{
+    background: none;
+    color: #222;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: calc(100% - 12px);
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+}
+
+.login-form button{
+    margin-left: 60px;
+}
+
+.user{
+   position: absolute;
+   top:0.5em;
+   right:0.5em;
+
+}
+
+.logo{
+   
+ margin-right: 70%;
+ }
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+#darkModeToggle{
+position: absolute;
+right: 1.5em;
+}
+
+.playlist-icon{
+    opacity: 0;
+}
+
+.playlist-song-title:hover .playlist-icon{
+   opacity: 1;
+}
+
+
+#darkModeLabel{
+    position: absolute;
+right: 4em;
+}
+
+
+header {
+    background-color: rgb(248, 248, 248);
+    color: black;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+#main {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping of sidebar and content */
+}
+
+.song-details{
+    margin-right: 40px;
+}
+
+#sidebar {
+    background-color: rgb(248, 248, 248);
+    flex: 1;
+
+    padding: 20px;
+    min-width: 250px; /* Set a minimum width for the sidebar */
+}
+
+#content {
+    flex: 3;
+    padding: 20px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    #sidebar {
+        flex: 1;
+        min-width: auto; /* Remove minimum width on smaller screens */
+    }
+
+    #content {
+        flex: 1; /* Adjust content width on smaller screens */
+    }
+}
+
+/* Other styles remain unchanged */
+/* ... */
+
+
+#BottomSongName{
+    position: absolute;
+    width: 100%;
+
+}
+
+
+h2 {
+    margin-top: 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+li:hover {
+    background-color: #efe7e7bc;
+}
+
+input[type="text"] {
+    padding: 5px;
+    width: 70%;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+#history-btn{
+  position: absolute;
+  right:4em;
+  bottom:10em;
+}
+
+button {
+    padding: 5px 10px;
+    border: none;
+    background-color: rgb(75, 107, 203);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 3px;
+   width: 150px;
+    font-size: small;
+}
+
+button:hover {
+    background-color: #0f7d3e;
+}
+
+#player {
+    background-color: rgb(248, 248, 248);
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#progressBar{
+    width: 85%;
+    position: absolute;
+    left: 5em;
+    top: 0.5em;;
+}
+.controls{
+    padding: 20px 25px;
+    margin-top: 20px;
+    width: 50%;
+    display: flex;
+    padding: 10px;
+  
+    justify-content: center;
+}
+.volume-container{
+    position: absolute;
+    right: 5em;
+    justify-content: space-between;
+}
+
+#duration{
+    position: absolute;
+right: 15em;
+bottom:1em;
+}
+
+#playingGif{
+    width: 250px;
+    height: 70px;
+    bottom: 1.5em;
+    left: 0;
+    opacity: 0;
+
+    position: relative;
+
+}
+
+#musicTitle{
+
+    bottom: -2em;
+    position: absolute;
+    left: 4em;
+   
+}
+
+.play-buttons{
+    
+    position: relative;
+}
+
+.song-grid-container {
+    max-height: 400px; /* Set your desired height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.song-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 2x4 grid */
+    gap: 20px; /* Space between song containers */
+}
+
+.song-container {
+    position: relative; /* Position relative for absolute positioning of play icon */
+}
+
+.song-cover {
+    width: 100%;
+    border-radius: 15px;
+    height: auto;
+    max-width: 200px; /* Maximum width for song cover */
+}
+
+.song-details {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.song-title {
+    font-weight: bold;
+}
+
+.songItemPlay {
+    position: absolute;
+    top: 35%;
+    left: 43%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    visibility: hidden; /* Initially hidden */
+    color: whitesmoke; /* Adjust color as needed */
+}
+
+.song-container:hover .songItemPlay {
+    visibility: visible; /* Show play icon on hover */
+}
+
+.playlist-song-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Add a border between song containers */
+}
+
+.playlist-song-cover {
+    width: 50px; /* Adjust the width of the song cover image */
+    height: 50px; /* Adjust the height of the song cover image */
+    margin-right: 20px; /* Add some space between the cover image and song details */
+    border-radius: 50%;
+}
+
+.playlist-song-details {
+    flex: 1; /* Allow the song details to take up remaining space */
+}
+
+.playlist-song-title {
+    font-size: 18px; /* Adjust the font size of the song title */
+    font-weight: bold; /* Make the song title bold */
+    margin-bottom: 5px; /* Add some space between the song title and play icon */
+}
+#historyComponent {
+    display: none; /* Hide the history component by default */
+    padding: 20px; /* Add some padding to the history component */
+}
+
+
+.history {
+    background-color: #f0f0f0; /* Set background color for the history content */
+    border-radius: 5px; /* Add border radius to the history content */
+    padding: 10px; /* Add padding to the history content */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a box shadow for a subtle effect */
+}
+
+.history h2 {
+    font-size: 20px; /* Adjust the font size of the history component title */
+    margin-bottom: 10px; /* Add some space below the history component title */
+}
+
+.dark-mode body {
+    background-color: #222;
+    color: #fff;
+}
+
+.dark-mode #main {
+    background-color: #333; /* Example change */
+    color: #fff; /* Example change */
+}
+
+/* Add other styles for dark mode as needed */
+
+
+
+
+
+

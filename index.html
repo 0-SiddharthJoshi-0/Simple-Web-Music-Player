@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body ng-app="MyHome" ng-controller="myCtrl">
+            
+        <!-- Your music app content goes here -->
+    
+    <header id="header">
+        <h1 class="logo"><i class="fa-2x fa-solid fa-music"></i> Music Play</h1>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+            <label class="form-check-label" for="darkModeToggle" id="darkModeLabel">Dark Mode</label>
+        </div>
+    </header>
+    <div id="main">
+        <div id="sidebar">
+            <ul>
+                <li onclick="selectComponent('home')" class="active"><i class="fas fa-home"></i> Home</li>
+                <li onclick="selectComponent('history')"><i class="fas fa-history"></i> History</li>
+                <li onclick="selectComponent('favorites')"><i class="fas fa-star"></i> Favorites</li>
+                <li onclick="selectComponent('playlist')"><i class="fas fa-play"></i> Playlist</li>
+            </ul>
+        </div>
+        <div id="content">
+            <h2 id="componentTitle">Home</h2>
+            <span class="search-bar" id="search-bar"></span>
+            <div id="homeComponent">
+                <input type="text" id="searchInput" placeholder="Search songs...">
+                <h3>Songs</h3>
+                <div class="song-grid-container">
+                    <div class="song-grid">
+                        <div class="song-container" ng-repeat="(index, song) in songs">
+                            <img ng-src="{{song.coverPath}}" alt="{{song.songName}} Cover" class="song-cover">
+                            <div class="song-details">
+                                <div class="song-title">{{song.songName}}</div>
+                                <i class="fa-3x fas fa-play-circle songItemPlay" id="{{index}}"></i>
+                                <p><button id="addToPlaylist" ng-click="togglePlaylistSong(song)">Add to Playlist</button></p>
+                                <p id="space"><button id="addToFavourites" ng-click="addToFavorites(song)">Add to Favorites</button></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="historyComponent" style="display: none;">
+                <button id="history-btn" ng-click="clearHistory()">Clear History</button>
+                <div id="historySongs"></div>
+            </div>
+            <div id="favoritesComponent" style="display: none;">
+                <ul id="favoritesList">
+                    <li ng-repeat="song in favorites">
+                        <i class="fa-solid fa-heart"></i> {{ song.songName }}
+                        <button ng-click="removeFromFavorites(song)">Remove</button>
+                    </li>
+                </ul>
+            </div>
+            <div id="playlistComponent" style="display: none;">
+                <div class="playlist-song-container" ng-repeat="(index, song) in playlist">
+                    <img ng-src="{{song.coverPath}}" class="playlist-song-cover">
+                    <div class="playlist-song-details">
+                        <div class="playlist-song-title">{{song.songName}}
+                            <i class="fa fas fa-play playlist-icon" ng-click="togglePlayPausePlaylistSong($index)" ></i>
+                        </div>
+                        <button ng-click="removeFromPlaylist(index)">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="player">
+        <div class="controls">
+            <div class="progress-bar-container">
+                <input type="range" id="progressBar" value="0" max="100">
+            </div>
+            <p id="musicTitle">
+                <span class="playingGif">
+                    <img src="images/playing.gif" id="playingGif">
+                </span>
+                <span id="BottomSongName"></span>
+            </p>
+            <div class="play-buttons">
+                <br>
+                <i class="fa-3x fas fa-step-backward" id="previous"></i>
+                <i class="fa-3x fas fa-play" id="masterPlay"></i>
+                <i class="fa-3x fas fa-step-forward" id="next"></i>
+            </div>
+            <div class="player-controls">
+               <i class="fas fa-redo" id="loop"></i>
+             <i class="fas fa-random" id="shuffle"></i>
+            </div>
+            <div class="volume-container">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" id="volumeBar" name="volume" min="0" max="100">
+            </div>
+            <span id="duration">00:00/00:00</span>
+        </div>
+  
+
+    </div>
+    <script>
+        var MyHome = angular.module('MyHome', []);
+        MyHome.controller("myCtrl", function($scope) {
+            $scope.songs = [
+                { songName: "I'm trapped Here", filePath: "songs/starfrosch - I'm trapped Here.wav", coverPath: "covers/1.jpeg", duration: "03:45" },
+                { songName: "Foley", filePath: "songs/foley.mp3", coverPath: "covers/8.webp", duration: "04:20" },
+                { songName: "Dancehall", filePath: "songs/dancehall.mp3", coverPath: "covers/5.webp", duration: "05:10" },
+                { songName: "Solaris", filePath: "songs/solaris.mp3", coverPath: "covers/6.webp", duration: "03:58" },
+                { songName: "Eurosound", filePath: "songs/eurosound.mp3", coverPath: "covers/7.webp", duration: "04:45" },
+                { songName: "termoxbeatz", filePath: "songs/tremoxbeatz.mp3", coverPath: "covers/4.jpeg", duration: "03:30" },
+                { songName: "Vinee heights", filePath: "songs/vinee heights.mp3", coverPath: "covers/2.jpeg", duration: "04:00" },
+                { songName: "Tvari hawaii", filePath: "songs/tvari hawaii.mp3", coverPath: "covers/3.jpeg", duration: "04:15" }
+            ];
+            $scope.playlist = []; // Initialize an empty playlist array
+            $scope.favorites = []; // Initialize an empty favorites array
+            
+            $scope.credentials = {
+                username: '',
+                password: ''
+            };
+            $scope.isLoggedIn = false;
+            $scope.username = '';
+
+            $scope.logout = function(){
+                $scope.isLoggedIn = false;
+                console.log("logout")
+            }
+
+            $scope.loginFailed = false;
+
+            $scope.login = function() {
+                // Here, you would typically send a request to a server to authenticate the user.
+                // For simplicity, let's just check the credentials client-side.
+                if ($scope.credentials.username === 'Siddharth' && $scope.credentials.password === '1234') {
+                    $scope.isLoggedIn = true;
+                    $scope.username = $scope.credentials.username;
+                } else {
+                    $scope.loginFailed = true;
+                }
+            };
+            // Function to toggle song in playlist
+            $scope.togglePlaylistSong = function(song) {
+                var index = $scope.playlist.indexOf(song);
+                if (index === -1) {
+                    // Add song to playlist
+                    $scope.playlist.push(song);
+                    console.log("Added to Playlist:", song.songName);
+                } else {
+                    // Remove song from playlist
+                    $scope.playlist.splice(index, 1);
+                    console.log("Removed from Playlist:", song.songName);
+                }
+            };
+            // Function to remove song from playlist
+            $scope.removeFromPlaylist = function(index) {
+                var song = $scope.playlist[index];
+                $scope.playlist.splice(index, 1);
+                console.log("Removed from Playlist:", song.songName);
+            };
+            $scope.clearHistory = function() {
+                document.getElementById('historySongs').innerHTML = "";
+                console.log('clicked');
+            };
+
+    
+
+   // Function to update play icon
+$scope.updatePlayIcon = function(songState) {
+    var playBtn = angular.element(document.querySelector('.playlist-icon')); // Use angular.element and document.querySelector
+    var gif = angular.element(document.querySelector('#playingGif'));
+    var master = angular.element(document.querySelector('#masterPlay')); // Use angular.element and document.querySelector
+    if (songState) {
+        playBtn.removeClass('fa-play').addClass('fa-pause'); 
+        master.removeClass('fa-play').addClass('fa-pause');// Use removeClass and addClass on the angular.element
+        gif.css('opacity', 1); // Use css method on the angular.element
+    } else {
+        playBtn.removeClass('fa-pause').addClass('fa-play');
+        master.removeClass('fa-pause').addClass('fa-play'); // Use removeClass and addClass on the angular.element
+        gif.css('opacity', 0); // Use css method on the angular.element
+    }
+};
+
+
+        $scope.updateSongTitle = function() {
+  var songTitle = $element.querySelector('#BottomSongName');
+  if ($scope.currentSong) {
+    songTitle.textContent = $scope.currentSong.songName;
+  } else {
+    songTitle.textContent = '';
+  }
+};
+            // Function to play or pause a song from the playlist
+            $scope.togglePlayPausePlaylistSong = function(index) {
+                var song = $scope.playlist[index];
+                if (!song.audioElement) {
+                    song.audioElement = new Audio(song.filePath);
+                    song.audioElement.addEventListener('timeupdate', function() {
+                        var progressBar = document.getElementById('progressBar');
+                        var durationSpan = document.getElementById('duration');
+                        var currentTime = song.audioElement.currentTime;
+                        var totalTime = song.audioElement.duration;
+                        var progress = (currentTime / totalTime) * 100;
+                        progressBar.value = progress;
+                        durationSpan.textContent = formatTime(currentTime) + '/' + formatTime(totalTime);
+                    });
+                    song.audioElement.addEventListener('ended', function() {
+                        $scope.updatePlayIcon(false);
+                    });
+                }
+                var audioElement = song.audioElement;
+                if (audioElement.paused) {
+                    audioElement.play();
+                    console.log("Playing:", song.songName);
+                    $scope.updatePlayIcon(true);
+                } else {
+                    audioElement.pause();
+                    console.log("Paused:", song.songName);
+                    $scope.updatePlayIcon(false);
+                }
+            };
+            // Function to format time in MM:SS format
+            function formatTime(time) {
+                var minutes = Math.floor(time / 60);
+                var seconds = Math.floor(time % 60);
+                return (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            }
+            $scope.addToFavorites = function(song) {
+                if ($scope.favorites.indexOf(song) === -1) {
+                    $scope.favorites.push(song);
+                    console.log("Added to Favorites:", song.songName);
+                } else {
+                    $scope.removeFromFavorites(song);
+                }
+            };
+            $scope.removeFromFavorites = function(song) {
+                var index = $scope.favorites.indexOf(song);
+                if (index !== -1) {
+                    $scope.favorites.splice(index, 1);
+                    console.log("Removed from Favorites:", song.songName);
+                }
+            };
+
+            
+        });
+    </script>
+    
+</body>
+</html>
