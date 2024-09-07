@@ -1,7 +1,7 @@
 # Simple-Web-Music-Player
 # Web Application
 
-This project is a basic web application that features user login, a music player, and various interactive components such as a song list, favorites, and history. The application is built using HTML, CSS, Angular js,and JavaScript.
+This project is a basic web application that features user login, a music player, and various interactive components such as a song list, favorites, and history. The application is built using HTML, CSS,and JavaScript.
 
 ## Files
 
